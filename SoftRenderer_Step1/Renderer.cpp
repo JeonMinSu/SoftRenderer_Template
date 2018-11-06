@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "SoftRenderer.h"
 #include "GDIHelper.h"
@@ -43,8 +42,8 @@ void UpdateFrame(void)
 	Vector2 center(0.0f, 0.0f);
 	float radius = 100.0f;
 
-	Matrix2 scaleMat;
-	scaleMat.SetScale(2.0f, 0.5f);
+	//Matrix2 scaleMat;
+	//scaleMat.SetScale(2.0f, 0.5f);
 
 /*
 	Matrix2 SRMat = scaleMat * rotMat;
@@ -55,45 +54,33 @@ void UpdateFrame(void)
 	degree += 0.5f;
 	degree = fmodf(degree, 360.0f);
 
-	Matrix2 rotMat;
+	Matrix3 rotMat;
 	rotMat.SetRotation(degree);
+	rotMat.Transpose();
+
+	static float scale = 1;
+	scale += 0.01f;
+	scale = fmodf(scale, 2.0f);
+
+	Matrix3 scaleMat;
+	scaleMat.SetScale(scale, scale, scale);
+
+	static float move = 1;
+	move += 1;
+	move = fmodf(move, 150);
+	Matrix3 translationMat;
+	translationMat.SetTranslation(move, move);
+
+	Matrix3 SR = rotMat * scaleMat;
+	Matrix3 TRS = translationMat * rotMat * scaleMat;
 
 	for (int i = -nradius; i <= nradius; i++)
 	{
 		for (int j = -nradius; j <= nradius; j++)
 		{
-			PutPixel(Vector2(i, j) * rotMat);
+			PutPixel(Vector3((float)i, (float)j) * SR);
 		}
 	}
 
-
-	//for (int i = -nradius; i <= nradius; i++)
-	//{
-	//	for (int j = /*-nradius*/0; j <= nradius; j++)
-	//	{
-	//		IntPoint pt(i, j);
-	//		Vector2 ptVec = pt.ToVector2();
-	//		if (Vector2::DistSquared(center, pt.ToVector2()) <= radius * radius)
-	//		{
-	//			//IntPoint scaledPt(ptVec * scaleMat);
-	//			//IntPoint rotatedPt(scaledPt.ToVector2() * rotMat);
-
-	//			IntPoint SRPt(ptVec * SRMat);
-	//			IntPoint RSPt(ptVec * RSmat);
-	//			PutPixel(RSPt);
-	//		}
-	//	}
-	//}
-
-	//for (int i = 0; i < 360; i++)
-	//{
-	//	IntPoint pt(radius, 0);
-	//	Matrix2 rotMat;
-	//	rotMat.SetRotation((float)i);
-	//	PutPixel(pt.ToVector2() * rotMat);
-	//}
-
-
-	// Buffer Swap
 	BufferSwap();
 }

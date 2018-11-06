@@ -1,12 +1,4 @@
-﻿  stdafx.cpp
-  Matrix2.cpp
-  Vector2.cpp
-d:\2018-10-30_engine\softrenderer_step1\matrix.h(2): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
-  SoftRenderer.cpp
-  Renderer.cpp
-d:\2018-10-30_engine\softrenderer_step1\matrix.h(2): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
-d:\2018-10-30_engine\softrenderer_step1\renderer.cpp(65): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  GDIHelper.cpp
-  코드를 생성하고 있습니다...
-  SoftRenderer.vcxproj -> D:\2018-10-30_Engine\SoftRenderer_Step1\x64\Debug\SoftRenderer.exe
-  SoftRenderer.vcxproj -> D:\2018-10-30_Engine\SoftRenderer_Step1\x64\Debug\SoftRenderer.pdb (Full PDB)
+﻿  Renderer.cpp
+d:\engineprograming\softrenderer_step1\matrix.h(2): warning C4067: 전처리기 지시문 다음에 예기치 않은 토큰이 있습니다. 줄 바꿈 문자가 필요합니다.
+  SoftRenderer.vcxproj -> D:\EnginePrograming\SoftRenderer_Step1\x64\Debug\SoftRenderer.exe
+  SoftRenderer.vcxproj -> D:\EnginePrograming\SoftRenderer_Step1\x64\Debug\SoftRenderer.pdb (Full PDB)

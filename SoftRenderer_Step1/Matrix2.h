@@ -27,13 +27,13 @@ public:
 		_22 = InY;
 	}
 
-	/*
+	void SetRotation(float degree) 
+	{
+		/*
 		회전 행렬 공식
 		Cos(th), -Sin(th)
 		Sin(th), Cos(th)
-	*/
-	void SetRotation(float degree) 
-	{
+		*/
 		float radian = Deg2Rad(degree);
 
 		_11 = cosf(radian);
@@ -41,6 +41,18 @@ public:
 		_21 = sinf(radian);
 		_22 = cosf(radian);
 	}
+	void Transpose() 
+	{
+		/*
+		회전 역행력
+		Cos(th), Sin(th)
+		-Sin(th),Cos(th)
+		*/
+		float temp = _12;
+		_12 = _21;
+		_21 = temp;
+	}
+
 
 	Matrix2 Matrix2::operator *(const Matrix2 & mat) const;
 };
