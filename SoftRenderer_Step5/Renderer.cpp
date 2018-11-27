@@ -6,12 +6,17 @@
 #include "Vector.h"
 #include "IntPoint.h"
 #include "Vertex.h"
+#include "Triangle.h"
+#include "QuadMesh.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 bool IsInRange(int x, int y);
 void PutPixel(int x, int y);
 
-void DrawTriangle(const Vertex &v1, const Vertex &v2, const Vertex &v3);
-void DrawTriangle(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3);
+//void DrawTriangle(const Vertex &v1, const Vertex &v2, const Vertex &v3);
+//void DrawTriangle(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3);
+void DrawTriangle(const Triangle &triangle);
 
 bool IsInRange(int x, int y)
 {
@@ -47,123 +52,142 @@ void DrawLine(const Vector3 &start, const Vector3 &end)
 		PutPixel(IntPoint(pt));
 	}
 }
-
-void DrawTriangle(const Vertex &v1, const Vertex &v2, const Vertex &v3)
+//void DrawTriangle(const Vertex &v1, const Vertex &v2, const Vertex &v3)
+//{
+//	Vector2 minPos = Vector2(INFINITY, INFINITY);
+//	Vector2 maxPos = Vector2(-INFINITY, -INFINITY);
+//
+//	Vector3 p1 = v1.position;
+//	Vector3 p2 = v2.position;
+//	Vector3 p3 = v3.position;
+//
+//	if (p1.X < minPos.X) minPos.X = p1.X;
+//	if (p1.Y < minPos.Y) minPos.Y = p1.Y;
+//	if (p1.X > maxPos.X) maxPos.X = p1.X;
+//	if (p1.Y > maxPos.Y) maxPos.Y = p1.Y;
+//
+//	if (p2.X < minPos.X) minPos.X = p2.X;
+//	if (p2.Y < minPos.Y) minPos.Y = p2.Y;
+//	if (p2.X > maxPos.X) maxPos.X = p2.X;
+//	if (p2.Y > maxPos.Y) maxPos.Y = p2.Y;
+//
+//	if (p3.X < minPos.X) minPos.X = p3.X;
+//	if (p3.Y < minPos.Y) minPos.Y = p3.Y;
+//	if (p3.X > maxPos.X) maxPos.X = p3.X;
+//	if (p3.Y > maxPos.Y) maxPos.Y = p3.Y;
+//
+//	Vector3 u = p2 - p1;
+//	Vector3 v = p3 - p1;
+//	float dotUU = Vector3::Dot(u, u);
+//	float dotUV = Vector3::Dot(u, v);
+//	float dotVV = Vector3::Dot(v, v);
+//	float invDenom = 1.0f / (dotUU * dotVV - dotUV * dotUV);
+//
+//	IntPoint minPt(minPos);
+//	IntPoint maxPt(maxPos);
+//
+//	for (int x = minPt.X; x < maxPt.X; x++)
+//	{
+//		for (int y = minPt.Y; y < maxPt.Y; y++)
+//		{
+//			IntPoint pt(x, y);
+//			Vector3 w = pt.ToVector3() - p1;
+//			float dotUW = Vector3::Dot(u, w);
+//			float dotVW = Vector3::Dot(v, w);
+//			float s = (dotVV * dotUW - dotUV * dotVW) * invDenom;
+//			float t = (dotUU * dotVW - dotUV * dotUW) * invDenom;
+//			if (s >= 0 && t >= 0 && ((s + t) <= 1))
+//			{
+//				BYTE RV1 = GetRValue(v1.color);
+//				BYTE RV2 = GetRValue(v2.color);
+//				BYTE RV3 = GetRValue(v3.color);
+//
+//				BYTE GV1 = GetGValue(v1.color);
+//				BYTE GV2 = GetGValue(v2.color);
+//				BYTE GV3 = GetGValue(v3.color);
+//
+//				BYTE BV1 = GetBValue(v1.color);
+//				BYTE BV2 = GetBValue(v2.color);
+//				BYTE BV3 = GetBValue(v3.color);
+//
+//				BYTE FinalR = (BYTE)(RV1 * (1 - s - t) + RV2 * s + RV3 * t);
+//				BYTE FinalG = (BYTE)(GV1 * (1 - s - t) + GV2 * s + GV3 * t);
+//				BYTE FinalB = (BYTE)(BV1 * (1 - s - t) + BV2 * s + BV3 * t);
+//
+//				SetColor(FinalR, FinalG, FinalB);
+//				PutPixel(pt);
+//			}
+//		}
+//	}
+//}
+void DrawTriangle(const Triangle &triangle)
 {
-	Vector2 minPos = Vector2(INFINITY, INFINITY);
-	Vector2 maxPos = Vector2(-INFINITY, -INFINITY);
-
-	Vector3 p1 = v1.position;
-	Vector3 p2 = v2.position;
-	Vector3 p3 = v3.position;
-
-	if (p1.X < minPos.X) minPos.X = p1.X;
-	if (p1.Y < minPos.Y) minPos.Y = p1.Y;
-	if (p1.X > maxPos.X) maxPos.X = p1.X;
-	if (p1.Y > maxPos.Y) maxPos.Y = p1.Y;
-
-	if (p2.X < minPos.X) minPos.X = p2.X;
-	if (p2.Y < minPos.Y) minPos.Y = p2.Y;
-	if (p2.X > maxPos.X) maxPos.X = p2.X;
-	if (p2.Y > maxPos.Y) maxPos.Y = p2.Y;
-
-	if (p3.X < minPos.X) minPos.X = p3.X;
-	if (p3.Y < minPos.Y) minPos.Y = p3.Y;
-	if (p3.X > maxPos.X) maxPos.X = p3.X;
-	if (p3.Y > maxPos.Y) maxPos.Y = p3.Y;
-
-	Vector3 u = p2 - p1;
-	Vector3 v = p3 - p1;
-	float dotUU = Vector3::Dot(u, u);
-	float dotUV = Vector3::Dot(u, v);
-	float dotVV = Vector3::Dot(v, v);
-	float invDenom = 1.0f / (dotUU * dotVV - dotUV * dotUV);
-
-	IntPoint minPt(minPos);
-	IntPoint maxPt(maxPos);
+	IntPoint minPt(triangle.minPos);
+	IntPoint maxPt(triangle.maxPos);
 
 	for (int x = minPt.X; x < maxPt.X; x++)
 	{
 		for (int y = minPt.Y; y < maxPt.Y; y++)
 		{
 			IntPoint pt(x, y);
-			Vector3 w = pt.ToVector3() - p1;
-			float dotUW = Vector3::Dot(u, w);
-			float dotVW = Vector3::Dot(v, w);
-			float s = (dotVV * dotUW - dotUV * dotVW) * invDenom;
-			float t = (dotUU * dotVW - dotUV * dotUW) * invDenom;
-			if (s >= 0 && t >= 0 && ((s + t) <= 1))
+			Vector2 baryValues = triangle.GetBaryCentricCoordinate(pt.ToVector3());
+			if (baryValues.X >= 0 && baryValues.Y >= 0 && ((baryValues.X + baryValues.Y) <= 1))
 			{
-				BYTE RV1 = GetRValue(v1.color);
-				BYTE RV2 = GetRValue(v2.color);
-				BYTE RV3 = GetRValue(v3.color);
-
-				BYTE GV1 = GetGValue(v1.color);
-				BYTE GV2 = GetGValue(v2.color);
-				BYTE GV3 = GetGValue(v3.color);
-
-				BYTE BV1 = GetBValue(v1.color);
-				BYTE BV2 = GetBValue(v2.color);
-				BYTE BV3 = GetBValue(v3.color);
-
-				BYTE FinalR = (BYTE)(RV1 * (1 - s - t) + RV2 * s + RV3 * t);
-				BYTE FinalG = (BYTE)(GV1 * (1 - s - t) + GV2 * s + GV3 * t);
-				BYTE FinalB = (BYTE)(BV1 * (1 - s - t) + BV2 * s + BV3 * t);
-
-				SetColor(FinalR, FinalG, FinalB);
+				ULONG finalColor = triangle.GetInterpolatedColor(baryValues);
+				SetColor(GetRValue(finalColor), GetGValue(finalColor), GetBValue(finalColor));
 				PutPixel(pt);
 			}
 		}
 	}
 }
-
-void DrawTriangle(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3)
-{
-	Vector2 minPos = Vector2(INFINITY, INFINITY);
-	Vector2 maxPos = Vector2(-INFINITY, -INFINITY);
-
-	if (p1.X < minPos.X) minPos.X = p1.X;
-	if (p1.Y < minPos.Y) minPos.Y = p1.Y;
-	if (p1.X > maxPos.X) maxPos.X = p1.X;
-	if (p1.Y > maxPos.Y) maxPos.Y = p1.Y;
-
-	if (p2.X < minPos.X) minPos.X = p2.X;
-	if (p2.Y < minPos.Y) minPos.Y = p2.Y;
-	if (p2.X > maxPos.X) maxPos.X = p2.X;
-	if (p2.Y > maxPos.Y) maxPos.Y = p2.Y;
-
-	if (p3.X < minPos.X) minPos.X = p3.X;
-	if (p3.Y < minPos.Y) minPos.Y = p3.Y;
-	if (p3.X > maxPos.X) maxPos.X = p3.X;
-	if (p3.Y > maxPos.Y) maxPos.Y = p3.Y;
-
-	Vector3 u = p2 - p1;
-	Vector3 v = p3 - p1;
-	float dotUU = Vector3::Dot(u, u);
-	float dotUV = Vector3::Dot(u, v);
-	float dotVV = Vector3::Dot(v, v);
-	float invDenom = 1.0f / (dotUU * dotVV - dotUV * dotUV);
-
-	IntPoint minPt(minPos);
-	IntPoint maxPt(maxPos);
-
-	for (int x = minPt.X; x < maxPt.X; x++)
-	{
-		for (int y = minPt.Y; y < maxPt.Y; y++)
-		{
-			IntPoint pt(x, y);
-			Vector3 w = pt.ToVector3() - p1;
-			float dotUW = Vector3::Dot(u, w);
-			float dotVW = Vector3::Dot(v, w);
-			float s = (dotVV * dotUW - dotUV * dotVW) * invDenom;
-			float t = (dotUU * dotVW - dotUV * dotUW) * invDenom;
-			if (s >= 0 && t >= 0 && ((s + t) <= 1))
-			{
-				PutPixel(pt);
-			}
-		}
-	}
-}
+//
+//void DrawTriangle(const Vector3 &p1, const Vector3 &p2, const Vector3 &p3)
+//{
+//	Vector2 minPos = Vector2(INFINITY, INFINITY);
+//	Vector2 maxPos = Vector2(-INFINITY, -INFINITY);
+//
+//	if (p1.X < minPos.X) minPos.X = p1.X;
+//	if (p1.Y < minPos.Y) minPos.Y = p1.Y;
+//	if (p1.X > maxPos.X) maxPos.X = p1.X;
+//	if (p1.Y > maxPos.Y) maxPos.Y = p1.Y;
+//
+//	if (p2.X < minPos.X) minPos.X = p2.X;
+//	if (p2.Y < minPos.Y) minPos.Y = p2.Y;
+//	if (p2.X > maxPos.X) maxPos.X = p2.X;
+//	if (p2.Y > maxPos.Y) maxPos.Y = p2.Y;
+//
+//	if (p3.X < minPos.X) minPos.X = p3.X;
+//	if (p3.Y < minPos.Y) minPos.Y = p3.Y;
+//	if (p3.X > maxPos.X) maxPos.X = p3.X;
+//	if (p3.Y > maxPos.Y) maxPos.Y = p3.Y;
+//
+//	Vector3 u = p2 - p1;
+//	Vector3 v = p3 - p1;
+//	float dotUU = Vector3::Dot(u, u);
+//	float dotUV = Vector3::Dot(u, v);
+//	float dotVV = Vector3::Dot(v, v);
+//	float invDenom = 1.0f / (dotUU * dotVV - dotUV * dotUV);
+//
+//	IntPoint minPt(minPos);
+//	IntPoint maxPt(maxPos);
+//
+//	for (int x = minPt.X; x < maxPt.X; x++)
+//	{
+//		for (int y = minPt.Y; y < maxPt.Y; y++)
+//		{
+//			IntPoint pt(x, y);
+//			Vector3 w = pt.ToVector3() - p1;
+//			float dotUW = Vector3::Dot(u, w);
+//			float dotVW = Vector3::Dot(v, w);
+//			float s = (dotVV * dotUW - dotUV * dotVW) * invDenom;
+//			float t = (dotUU * dotVW - dotUV * dotUW) * invDenom;
+//			if (s >= 0 && t >= 0 && ((s + t) <= 1))
+//			{
+//				PutPixel(pt);
+//			}
+//		}
+//	}
+//}
 
 
 /*
@@ -259,18 +283,31 @@ void UpdateFrame(void)
 	//Vector3 end = Vector3::Make2DPoint(50, 50) * trsMat;
 	//DrawLine(start, end);
 
-	Vector3 p1 = Vector3::Make2DPoint(-80, -80) * trsMat;
-	Vector3 p2 = Vector3::Make2DPoint(-80, 80) * trsMat;
-	Vector3 p3 = Vector3::Make2DPoint(80, 80) * trsMat;
-	Vector3 p4 = Vector3::Make2DPoint(80, -80) * trsMat;
+	static Vector3 p1 = Vector3::Make2DPoint(-80, -80) * trsMat;
+	static Vector3 p2 = Vector3::Make2DPoint(-80, 80) * trsMat;
+	static Vector3 p3 = Vector3::Make2DPoint(80, 80) * trsMat;
+	static Vector3 p4 = Vector3::Make2DPoint(80, -80) * trsMat;
 
-	Vertex v1(p1, RGB32(255, 0, 0));
-	Vertex v2(p2, RGB32(0, 255, 0));
-	Vertex v3(p3, RGB32(0, 0, 255));
-	Vertex v4(p4, RGB32(255, 255, 255));
+	static Vertex v1(p1, RGB32(255, 0, 0), Vector2(0, 0));
+	static Vertex v2(p2, RGB32(0, 255, 0), Vector2(1, 0));
+	static Vertex v3(p3, RGB32(0, 0, 255), Vector2(0, 1));
+	static Vertex v4(p4, RGB32(255, 255, 255), Vector2(1, 1));
 
-	DrawTriangle(v1, v2, v3);
-	DrawTriangle(v1, v3, v4);
+	//DrawTriangle(v1, v2, v3);
+	//DrawTriangle(v1, v3, v4);
+
+	Triangle tri1(v1, v2, v3);
+	Triangle tri2(v1, v3, v4);
+	
+	QuadMesh mesh(tri1, tri2);
+	Transform2D tr1(Vector2(pos, pos), theta, Vector2(scale, scale));
+	GameObject2D obj1(mesh);
+
+	for (int i = 0; i < 2; i++)
+	{
+		DrawTriangle(obj1.Mesh.Triangles[i]);
+	}
+
 
 	//DrawTriangle(p1, p2, p3);
 	//DrawTriangle(p1, p3, p4);

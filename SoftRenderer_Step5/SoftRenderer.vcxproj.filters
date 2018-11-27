@@ -78,6 +78,21 @@
     <ClInclude Include="Texture.h">
       <Filter>Image</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>GeoMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadMesh.h">
+      <Filter>GeoMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>GeoMatrix</Filter>
+    </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>GeoMatrix</Filter>
     </ClInclude>

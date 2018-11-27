@@ -1,2 +1,4 @@
 ﻿  Renderer.cpp
-  SoftRenderer.vcxproj -> D:\SoftRenderer_Step5\x64\Debug\SoftRenderer.exe
+d:\engineprograming\softrenderer_step5\triangle.h(75): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+d:\engineprograming\softrenderer_step5\triangle.h(75): error C2143: 구문 오류: ','이(가) '&' 앞에 없습니다.
+d:\engineprograming\softrenderer_step5\triangle.h(80): error C2065: 'newTransform': 선언되지 않은 식별자입니다.

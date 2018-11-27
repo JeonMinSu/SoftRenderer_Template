@@ -6,11 +6,12 @@
 struct Vertex
 {
 public:
+	Vertex() : color(RGB32(0,0,0)) {}
+	Vertex(Vector3 v, ULONG c) : position(v), color(c) {}
+	Vertex(const Vector3 v, ULONG c, Vector2 InUV) : position(v), color(c), uv(InUV) {}
+
 
 	Vector3 position;
-	//Vector3 uv;
 	ULONG color;
-
-	Vertex(Vector3 v, ULONG c) : position(v), color(c) {}
-
+	Vector2 uv;
 };
